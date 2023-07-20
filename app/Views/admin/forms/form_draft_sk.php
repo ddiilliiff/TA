@@ -1,0 +1,135 @@
+<?php echo $this->extend('admin/templates/template'); ?>
+
+<?php echo $this->section('content'); ?>
+<div class="container-fluid">
+   <div class="card sahdow mb-4">
+      <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
+         <h6 class="m-0 font-weight-bold text-dark">FORM DRAFT SK</h6>
+      </div>
+      <?php if (session()->has('success')) { ?>
+      <div class="container col-6 alert alert-success alert-dismissible fade show text-center" role="alert">
+         <strong><?php echo session('success'); ?>.</strong>
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      <!-- <script>
+      // Menghilangkan flash data setelah 3 detik (3000 ms)
+      setTimeout(function() {
+         $('.alert').fadeOut();
+      }, 3000);
+      </script> -->
+      <?php } ?>
+
+      <div class="container">
+         <div class="row justify-content-center">
+            <div class="col-6">
+               <?php
+                                    if (session()->get('err')) {
+                                        echo "<div class='alert alert-warning' role='alert'>".session()->get('err').'</div>'
+                                            ."<script> setTimeout(function() {
+                                                            $('.alert').fadeOut();
+                                                        }, 10000);
+                                                        </script>";
+                                    } ?>
+            </div>
+         </div>
+      </div>
+
+      <!-- Form Yang Belum Ada Data -->
+      <?php if (!empty($draft_sk)) { ?>
+      <form action="<?php echo base_url(); ?>admin/update_draft_sk" method="post">
+         <div class="form-group">
+            <input type="hidden" name="id_notulensi" value="<?php echo $id_notulensi; ?>">
+            <div class="row mx-3 my-3">
+               <!-- <div class="col-2">
+                  <label for="">Kode Drfat SK :</label>
+               </div> -->
+               <div class="col-10">
+                  <input type="hidden" readonly class="form-control" value="<?php echo $draft_sk['kd_draft_sk']; ?>"
+                     name="kd_draft_sk">
+               </div>
+            </div>
+
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">Nomor :</label>
+               </div>
+               <div class="col-10">
+                  <input type="text" readonly class="form-control" value="<?php echo $draft_sk['nomor']; ?>">
+               </div>
+            </div>
+
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">Tahun :</label>
+               </div>
+               <div class="col-10">
+                  <input type="text" readonly class="form-control" value="<?php echo $draft_sk['tahun']; ?>">
+               </div>
+            </div>
+
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">Hari/Tanggal :</label>
+               </div>
+               <div class="col-10">
+                  <input type="text" readonly class="form-control"
+                     value="<?php echo \App\Helpers\MyHelper::formatTanggalIndonesia($draft_sk['tanggal']); ?>">
+               </div>
+            </div>
+
+            <div class=" row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">Judul SK :</label>
+               </div>
+               <div class="col-10">
+                  <textarea class="form-control" cols="30" rows="10"
+                     name="judul"><?php echo $draft_sk['judul']; ?></textarea>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button class="btn btn-primary" name="submitSK" type="submit">Edit</button>
+         </div>
+      </form>
+      <?php } else { ?>
+      <form action="<?php echo base_url(); ?>admin/save_draft_sk" method="post">
+         <div class="form-group">
+            <input type="hidden" name="id_notulensi" value="<?php echo $id_notulensi; ?>">
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">NOMOR SK :</label>
+               </div>
+               <div class="col-10">
+                  <input type="text" readonly class="form-control" value="<?php echo $no_sk; ?>" name="kd_draft_sk">
+               </div>
+            </div>
+
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">TAHUN :</label>
+               </div>
+               <div class="col-10">
+                  <input type="text" readonly class="form-control" value="<?php echo date('Y'); ?>">
+               </div>
+            </div>
+
+            <div class="row mx-3 my-3">
+               <div class="col-2">
+                  <label for="">Judul :</label>
+               </div>
+               <div class="col-10">
+                  <textarea class="form-control" cols="30" rows="10" name="judul"></textarea>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button class="btn btn-primary" name="updateSK" type="submit">Submit</button>
+         </div>
+      </form>
+      <?php } ?>
+   </div>
+</div>
+
+<?php echo $this->endSection('content'); ?>
